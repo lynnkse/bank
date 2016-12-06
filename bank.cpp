@@ -1,9 +1,12 @@
 #include "bank.h"
 #include <vector>
+#include "account.h"
+
+using namespace std;
 
 void Bank::Invest() const
 {
-	for(vector<Account*>::iterator it = m_EXaccounts.begin(); it != m_EXaccounts.end(); ++it)
+	for(vector<Account*>::const_iterator it = m_EXaccounts.begin(); it != m_EXaccounts.end(); ++it)
 	{
 		(*it)->Update(this, "Stock Exchange investment made");
 	}
@@ -11,7 +14,7 @@ void Bank::Invest() const
 
 void Bank::GiveBonus() const
 {
-	for(vector<Account*>::iterator it = m_FMaccounts.begin(); it != m_FMaccounts.end(); ++it)
+	for(vector<Account*>::const_iterator it = m_FMaccounts.begin(); it != m_FMaccounts.end(); ++it)
 	{
 		(*it)->Update(this, "Bonus given");
 	}	
@@ -19,16 +22,14 @@ void Bank::GiveBonus() const
 
 void Bank::OrgMeeting() const
 {
-	for(vector<Account*>::iterator it = m_SVaccounts.begin(); it != m_SVaccounts.end(); ++it)
+	for(vector<Account*>::const_iterator it = m_SVaccounts.begin(); it != m_SVaccounts.end(); ++it)
 	{
 		(*it)->Update(this, "Meeting organized");
 	}
 }
 
-void Bank::Attach(Account* _obsrv, AccountType _type) const
+void Bank::Attach(Observer* _obsrv, string _type) const
 {
-	switch(_type)
-	{
 		case INVESTMENT:
 			m_EXaccounts.push_back(_obsrv);
 			break;
@@ -38,7 +39,6 @@ void Bank::Attach(Account* _obsrv, AccountType _type) const
 		case FAMILY:
 			m_FMaccounts.push_back(_obsrv);
 			break;
-	}
 }
 
 Bank& Bank::GetObject() const
